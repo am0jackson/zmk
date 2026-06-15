@@ -20,10 +20,14 @@ LOG_MODULE_REGISTER(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/hid.h>
 #include <dt-bindings/zmk/mouse.h>
 #include <zmk/hid_indicators.h>
+#include <zmk/keymap.h>   /* ADDED: layer query */
 #include <zmk/indicator_capslock.h>
 #ifdef CONFIG_ZMK_MOUSE
 #include <zmk/mouse.h>
 #endif /* CONFIG_ZMK_MOUSE */
+
+/* ADDED: scroll when this keymap layer (SELECT) is held; must match bb9900.keymap */
+#define BB_SCROLL_LAYER 3
 static const struct device *get_a320_device(void) {
     const struct device *dev = DEVICE_DT_GET_ANY(avago_a320);
 
@@ -69,7 +73,8 @@ int main(void) {
             int8_t y = xy_pos.val1;
             int8_t scroll_x = 0;
             int8_t scroll_y = 0;
-            if (zmk_hid_indicators_get_current_profile() == 2 ||
+            if (zmk_keymap_layer_active(BB_SCROLL_LAYER) ||
+                zmk_hid_indicators_get_current_profile() == 2 ||
                 zmk_hid_indicators_get_current_profile() == 3 ||
                 zmk_hid_indicators_get_current_profile() == 7 ||
                 zmk_hid_indicators_get_current_profile() == 4) {
@@ -117,7 +122,8 @@ int main(void) {
             // LOG_DBG("x value : %d , y value : %d\r\n", val->val1, val->val2);
             int8_t scroll_x = 0;
             int8_t scroll_y = 0;
-            if (zmk_hid_indicators_get_current_profile() == 2 ||
+            if (zmk_keymap_layer_active(BB_SCROLL_LAYER) ||
+                zmk_hid_indicators_get_current_profile() == 2 ||
                 zmk_hid_indicators_get_current_profile() == 3 ||
                 zmk_hid_indicators_get_current_profile() == 7 ||
                 zmk_hid_indicators_get_current_profile() == 4) {
@@ -162,7 +168,8 @@ int main(void) {
             // LOG_DBG("x value : %d , y value : %d\r\n", val->val1, val->val2);
             int8_t scroll_x = 0;
             int8_t scroll_y = 0;
-            if (zmk_hid_indicators_get_current_profile() == 2 ||
+            if (zmk_keymap_layer_active(BB_SCROLL_LAYER) ||
+                zmk_hid_indicators_get_current_profile() == 2 ||
                 zmk_hid_indicators_get_current_profile() == 3 ||
                 zmk_hid_indicators_get_current_profile() == 7 ||
                 zmk_hid_indicators_get_current_profile() == 4) {
