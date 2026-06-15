@@ -416,6 +416,11 @@ config TRACKPAD_SCROLL_INTERVAL
     range 10 500
     default 20
 
+config TRACKPAD_SCROLL_DIVISOR
+    int "Trackpad scroll divisor (higher = slower/finer scrolling)"
+    range 1 200
+    default 16
+
 config TRACKPAD_SPEEDMULTIPLIER_HORIZONTAL
     int "trackpad speed multiplier in horizontal direction"
     range 0 1000
