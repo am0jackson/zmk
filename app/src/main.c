@@ -78,26 +78,17 @@ int main(void) {
                 zmk_hid_indicators_get_current_profile() == 3 ||
                 zmk_hid_indicators_get_current_profile() == 7 ||
                 zmk_hid_indicators_get_current_profile() == 4) {
-                if (abs(y) >= 128) {
-                    scroll_x = -x / 24;
-                    scroll_y = -y / 24;
-                } else if (abs(y) >= 64 && abs(y) < 128) {
-                    scroll_x = -x / 16;
-                    scroll_y = -y / 16;
-                } else if (abs(y) >= 32 && abs(y) < 64) {
-                    scroll_x = -x / 12;
-                    scroll_y = -y / 12;
-                } else if (abs(y) >= 21 && abs(y) < 32) {
-                    scroll_x = -x / 8;
-                    scroll_y = -y / 8;
-                } else if (abs(y) >= 3 && abs(y) < 20) {
-                    scroll_x = -(x > 0) ? 1 : (x < 0) ? -1 : 0;
-                    scroll_y = -((y > 0) ? 1 : (y < 0) ? -1 : 0);
-                } else if (abs(y) >= 0 && abs(y) < 2) {
-                    scroll_x = -(x > 0) ? 1 : (x < 0) ? -1 : 0;
-                    ;
-                    scroll_y = 0;
-                }
+                /* slower/finer scroll: accumulate motion, emit 1 wheel notch per
+                 * CONFIG_TRACKPAD_SCROLL_DIVISOR units (higher = slower). */
+                static int16_t sacc_x = 0, sacc_y = 0;
+                sacc_x += x;
+                sacc_y += y;
+                int16_t notch_x = sacc_x / CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                int16_t notch_y = sacc_y / CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                sacc_x -= notch_x * CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                sacc_y -= notch_y * CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                scroll_x = -notch_x;
+                scroll_y = -notch_y;
                 int Scroll_INTERVAL = CONFIG_TRACKPAD_SCROLL_INTERVAL;
                 k_sleep(K_MSEC(Scroll_INTERVAL));
                 x = 0;
@@ -127,26 +118,17 @@ int main(void) {
                 zmk_hid_indicators_get_current_profile() == 3 ||
                 zmk_hid_indicators_get_current_profile() == 7 ||
                 zmk_hid_indicators_get_current_profile() == 4) {
-                if (abs(y) >= 128) {
-                    scroll_x = -x / 24;
-                    scroll_y = -y / 24;
-                } else if (abs(y) >= 64 && abs(y) < 128) {
-                    scroll_x = -x / 16;
-                    scroll_y = -y / 16;
-                } else if (abs(y) >= 32 && abs(y) < 64) {
-                    scroll_x = -x / 12;
-                    scroll_y = -y / 12;
-                } else if (abs(y) >= 21 && abs(y) < 32) {
-                    scroll_x = -x / 8;
-                    scroll_y = -y / 8;
-                } else if (abs(y) >= 3 && abs(y) < 20) {
-                    scroll_x = -(x > 0) ? 1 : (x < 0) ? -1 : 0;
-                    scroll_y = -((y > 0) ? 1 : (y < 0) ? -1 : 0);
-                } else if (abs(y) >= 0 && abs(y) < 2) {
-                    scroll_x = -(x > 0) ? 1 : (x < 0) ? -1 : 0;
-                    ;
-                    scroll_y = 0;
-                }
+                /* slower/finer scroll: accumulate motion, emit 1 wheel notch per
+                 * CONFIG_TRACKPAD_SCROLL_DIVISOR units (higher = slower). */
+                static int16_t sacc_x = 0, sacc_y = 0;
+                sacc_x += x;
+                sacc_y += y;
+                int16_t notch_x = sacc_x / CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                int16_t notch_y = sacc_y / CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                sacc_x -= notch_x * CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                sacc_y -= notch_y * CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                scroll_x = -notch_x;
+                scroll_y = -notch_y;
                 int Scroll_INTERVAL = CONFIG_TRACKPAD_SCROLL_INTERVAL;
                 k_sleep(K_MSEC(Scroll_INTERVAL));
                 x = 0;
@@ -173,26 +155,17 @@ int main(void) {
                 zmk_hid_indicators_get_current_profile() == 3 ||
                 zmk_hid_indicators_get_current_profile() == 7 ||
                 zmk_hid_indicators_get_current_profile() == 4) {
-                if (abs(y) >= 128) {
-                    scroll_x = -x / 24;
-                    scroll_y = -y / 24;
-                } else if (abs(y) >= 64 && abs(y) < 128) {
-                    scroll_x = -x / 16;
-                    scroll_y = -y / 16;
-                } else if (abs(y) >= 32 && abs(y) < 64) {
-                    scroll_x = -x / 12;
-                    scroll_y = -y / 12;
-                } else if (abs(y) >= 21 && abs(y) < 32) {
-                    scroll_x = -x / 8;
-                    scroll_y = -y / 8;
-                } else if (abs(y) >= 3 && abs(y) < 20) {
-                    scroll_x = -(x > 0) ? 1 : (x < 0) ? -1 : 0;
-                    scroll_y = -((y > 0) ? 1 : (y < 0) ? -1 : 0);
-                } else if (abs(y) >= 0 && abs(y) < 2) {
-                    scroll_x = -(x > 0) ? 1 : (x < 0) ? -1 : 0;
-                    ;
-                    scroll_y = 0;
-                }
+                /* slower/finer scroll: accumulate motion, emit 1 wheel notch per
+                 * CONFIG_TRACKPAD_SCROLL_DIVISOR units (higher = slower). */
+                static int16_t sacc_x = 0, sacc_y = 0;
+                sacc_x += x;
+                sacc_y += y;
+                int16_t notch_x = sacc_x / CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                int16_t notch_y = sacc_y / CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                sacc_x -= notch_x * CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                sacc_y -= notch_y * CONFIG_TRACKPAD_SCROLL_DIVISOR;
+                scroll_x = -notch_x;
+                scroll_y = -notch_y;
                 int Scroll_INTERVAL = CONFIG_TRACKPAD_SCROLL_INTERVAL;
                 k_sleep(K_MSEC(Scroll_INTERVAL));
                 x = 0;
